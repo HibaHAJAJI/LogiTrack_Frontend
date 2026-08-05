@@ -1,5 +1,6 @@
 import { Routes, Route , Navigate } from "react-router-dom";
 import Login from "../pages/Login";
+import Register from "../pages/register";
 import Dashboard from "../components/Dashboard";
 
 const AppRoutes = () => {
@@ -8,6 +9,7 @@ const AppRoutes = () => {
       <Route path="/" element={<Navigate to="/login" replace />} />
 
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element ={<Register />} />
       <Route path="/dashboard" element={<Dashboard/>} />
     </Routes>
   );

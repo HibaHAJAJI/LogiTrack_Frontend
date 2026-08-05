@@ -1,8 +1,8 @@
 import {useState} from "react";
 import authService from "../services/authService";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext"
-import { Box,Paper, Button,TextField,Typography,} from "@mui/material";
+import { useNavigate ,Link as RouterLink} from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { Box,Paper, Button,TextField,Typography, Link as MuiLink} from "@mui/material";
 
 
 
@@ -53,7 +53,6 @@ const Login = ()=>{
        setLoading(false);
     }
   };
-
 
   return(
 
@@ -130,12 +129,29 @@ const Login = ()=>{
             >
               {loading ? "Connexion..." : "Se connecter"}
             </Button>
-         </form>
+
+            <Typography textAlign="center" variant="body2">
+            Vous n'avez pas encore de compte ?{" "}
+            <MuiLink 
+                component={RouterLink} 
+                to="/register" 
+                underline="hover"
+                sx={{ color: "primary.main", fontWeight: "bold", cursor: "pointer" }}
+              >
+                Créer un compte
+              </MuiLink>
+          </Typography>
+        </form>
       </Paper>
     </Box>
   );
-}
-  export default Login;
+
+};
+
+export default Login;
+
+
+
 
 
 

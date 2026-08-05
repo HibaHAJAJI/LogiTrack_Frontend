@@ -10,7 +10,12 @@ const authService = {
             localStorage.setItem('user', JSON.stringify(response.data.user || { email }));
         }
         return response.data
-    }
+    },
+
+    register: async(userData)=>{
+        const response = await api.post ("/auth/register", userData);
+        return response.data;
+    },
 }
 
 export default authService;
