@@ -3,20 +3,23 @@ import RouteIcon from "@mui/icons-material/Route";
 
 const Navbar = () => {
   return (
-    <AppBar 
-      position="static" 
-      elevation={1} 
-      sx={{ backgroundColor: "#117a36" }} 
-    >
+   <AppBar
+        position="fixed"
+        elevation={1}
+        sx={{
+            backgroundColor: "#a2e5b8",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        >
       <Toolbar>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
          <RouteIcon  sx={{   color: "#0c264e",   fontSize: 28, }}/> 
          <Typography
                 variant="h6"
                 sx={{
-                    fontWeight: 800,
+                    fontWeight: 600,
                     letterSpacing: "1px",
-                    color: "#ffffff",
+                    color: "#e7f3f4",
                     fontFamily: "Poppins, sans-serif",
                     fontSize: "1.35rem",
                 }}
