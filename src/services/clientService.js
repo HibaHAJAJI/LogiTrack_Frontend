@@ -10,5 +10,10 @@ const clientService ={
         return response.data;
     },
 
+    create: async(client)=>{
+        const response = await api.post("/clients",client);
+        return response.data;
+    }
+
 }
 export default clientService;

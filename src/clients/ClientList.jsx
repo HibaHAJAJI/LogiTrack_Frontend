@@ -1,4 +1,5 @@
 import clientService from "../services/clientService";
+import ClientForm from "./ClientForm";
 import { useEffect,useState } from "react";
 import {
   Container,
@@ -9,17 +10,18 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Button,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 
 
 function ClientsList(){
 
     const [clients,setClients] = useState([]);
+    const [open, setOpen] = useState(false);
 
-    useEffect(()=>{
-
-         const loadClients = async()=>{
+      const loadClients = async()=>{
 
         try{
             const data = await clientService.getAll();
@@ -31,7 +33,13 @@ function ClientsList(){
         }
     };
 
-             loadClients();
+    useEffect(()=>{
+
+             const fetchClients = async () => {
+    await loadClients();
+  };
+
+  fetchClients();
     },[]);
 
   
@@ -42,6 +50,14 @@ function ClientsList(){
         <Typography variant="h5" gutterBottom>
           Liste des clients
         </Typography>
+             <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={() => setOpen(true)}
+                sx={{ mb: 2 }}
+                >
+                Ajouter un client
+                </Button>
 
                 <Table>
             <TableHead>
@@ -64,6 +80,10 @@ function ClientsList(){
                 ))}
             </TableBody>
             </Table>
+            <ClientForm
+            open={open}
+            onClose={() => setOpen(false)}
+            onSuccess={loadClients}/>
       </Paper>
     </Container>
   );
