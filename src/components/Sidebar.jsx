@@ -6,14 +6,18 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
+  Button
 } from "@mui/material";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 
 import { useNavigate, useLocation } from "react-router-dom";
+import{useAuth} from "../contexts/AuthContext"
 
 const menuItems = [
   {
@@ -42,6 +46,8 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const{logout} =useAuth();
+
   return (
     <Drawer
       variant="permanent"
@@ -65,6 +71,9 @@ const Sidebar = () => {
           overflow: "auto",
           px: 1.5,
           py: 2,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <List disablePadding>
@@ -113,7 +122,6 @@ const Sidebar = () => {
 
                       "& .MuiSvgIcon-root": {
                         fontSize: 23,
-                        strokeWidth: 1.5,
                       },
                     }}
                   >
@@ -122,9 +130,13 @@ const Sidebar = () => {
 
                   <ListItemText
                     primary={item.text}
-                    primaryTypographyProps={{
-                      fontSize: "0.95rem",
-                      fontWeight: isActive ? 600 : 500,
+                    slotProps={{
+                      primary: {
+                        sx: {
+                          fontSize: "0.95rem",
+                          fontWeight: isActive ? 600 : 500,
+                        },
+                      },
                     }}
                   />
                 </ListItemButton>
@@ -132,6 +144,31 @@ const Sidebar = () => {
             );
           })}
         </List>
+
+        {/* Logout */}
+        <Box sx={{ mt: "auto", pt: 2 }}>
+          <Button
+            startIcon={<LogoutIcon />}
+            onClick={logout}
+            fullWidth
+            sx={{
+              justifyContent: "flex-start",
+              px: 2,
+              py: 1.2,
+              borderRadius: "10px",
+              color: "#64748b",
+              textTransform: "none",
+              fontSize: "0.95rem",
+
+              "&:hover": {
+                backgroundColor: "#fef2f2",
+                color: "#dc2626",
+              },
+            }}
+          >
+            Déconnexion
+          </Button>
+        </Box>
       </Box>
     </Drawer>
   );

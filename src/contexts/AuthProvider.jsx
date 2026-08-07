@@ -19,12 +19,25 @@ export const AuthProvider = ({ children }) =>{
         localStorage.setItem("user",JSON.stringify(userData))
     };
 
+    const logout = ()=>{
+
+        setToken(null);
+        setUser(null);
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        window.location.href = "/login";
+    }
+
     return(
         <AuthContext.Provider 
+        
         value={{
             user,
             token,
-            login
+            login,
+            logout
         }}
         >
             {children}
