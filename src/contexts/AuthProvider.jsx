@@ -7,25 +7,19 @@ export const AuthProvider = ({ children }) =>{
         localStorage.getItem("token")
     );
 
-    const [user , setUser] = useState(
-        JSON.parse(localStorage.getItem("user")) || null
-    );
+ 
 
     const login = (userData, jwtToken) =>{
-        setUser(userData);
         setToken (jwtToken);
 
         localStorage.setItem("token", jwtToken);
-        localStorage.setItem("user",JSON.stringify(userData))
     };
 
     const logout = ()=>{
 
         setToken(null);
-        setUser(null);
 
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
 
         window.location.href = "/login";
     }
@@ -34,7 +28,7 @@ export const AuthProvider = ({ children }) =>{
         <AuthContext.Provider 
         
         value={{
-            user,
+            
             token,
             login,
             logout
