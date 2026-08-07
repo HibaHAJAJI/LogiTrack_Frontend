@@ -9,6 +9,9 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
 
+import Clients from "../clients/ClientList"
+
+
  const MainLayout = ({children}) => {
     return(
      <>
@@ -34,13 +37,8 @@ const AppRoutes = () => {
 
       <Route path="/login" element={<Login />} />
       <Route path="/register" element ={<Register />} />
-      <Route path="/dashboard"
-           element={
-          <MainLayout>
-            <Dashboard />
-          </MainLayout>
-        }  />
-    </Routes>
+      <Route path="/dashboard" element={ <MainLayout>     <Dashboard />    </MainLayout>  }  />
+      <Route path="/clients" element={ <MainLayout>   <Clients />  </MainLayout>}/>  </Routes>
   );
 };
 
