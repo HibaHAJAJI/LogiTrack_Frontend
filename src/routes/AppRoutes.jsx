@@ -12,6 +12,7 @@ import NotFound  from "../components/NotFound";
 
 import Clients from "../clients/ClientList"
 import Produits from "../produits/ProduitsList"
+import Commandes from "../commandes/commandesList"
 
 
  const MainLayout = ({children}) => {
@@ -42,6 +43,8 @@ const AppRoutes = () => {
       <Route path="/dashboard" element={ <MainLayout>     <Dashboard />    </MainLayout>  }  />
       <Route path="/clients" element={ <MainLayout>   <Clients />  </MainLayout>}/> 
       <Route path="/produits"  element={ <MainLayout><Produits/></MainLayout>}/>
+      <Route path="/commandes"  element={ <MainLayout><Commandes/></MainLayout>}/>
+
 
 
      <Route path="*" element ={<NotFound/>}/>
