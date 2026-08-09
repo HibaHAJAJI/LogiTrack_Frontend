@@ -8,6 +8,10 @@ const CommandesService ={
         const response = await api.get(`/orders?page=${page}&size=${size}`);
        return response.data
     },
+    create: async(Commandes)=>{
+        const response = await api.post("/orders",Commandes);
+        return response.data
+    },
 
 }
 
