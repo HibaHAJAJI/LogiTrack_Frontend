@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import ProduitForm from "./ProduitForm";
 import SearchBar from "../components/SearchBar";
 import DeleteButton from "../components/DeleteButton";
+import { useNavigate } from "react-router-dom";
+
 
 import {
     Container,
@@ -27,6 +29,9 @@ function ProduitsList() {
 
     const [search, setSearch] = useState("");
     const [typeRecherche, setTypeRecherche] = useState("categorie");
+
+        const navigate = useNavigate();
+
 
 
     const loadProduits = async () => {
@@ -262,10 +267,20 @@ function ProduitsList() {
                                         {produit.categorie}
                                     </TableCell>
                                     <TableCell>
-                                    <DeleteButton
-                                        onDelete={() => handleDelete(produit.id)}
-                                    />
-                                </TableCell>
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                gap: 1,  }} >
+                                            <DeleteButton onDelete={() => handleDelete(produit.id)}        />
+
+                                            <Button
+                                                variant="outlined"
+                                                size="small"
+                                                onClick={() => navigate(`/products/${produit.id}`)}   >
+                                                CONSULTER
+                                            </Button>
+                                        </Box>
+                                    </TableCell>
 
                                 </TableRow>
 

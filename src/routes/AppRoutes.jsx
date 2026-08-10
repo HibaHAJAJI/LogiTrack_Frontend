@@ -12,8 +12,11 @@ import NotFound  from "../components/NotFound";
 
 import Clients from "../clients/ClientList"
 import ClientDetails from "../clients/ClientDetails";
-import Produits from "../produits/ProduitsList"
-import Commandes from "../commandes/commandesList"
+
+import Produits from "../produits/ProduitsList";
+import ProduitDetails from "../produits/ProduitsDetails";
+
+import Commandes from "../commandes/commandesList";
 
 
  const MainLayout = ({children}) => {
@@ -41,10 +44,15 @@ const AppRoutes = () => {
 
       <Route path="/login" element={<Login />} />
       <Route path="/register" element ={<Register />} />
+
       <Route path="/dashboard" element={ <MainLayout>     <Dashboard />    </MainLayout>  }  />
+
       <Route path="/clients" element={ <MainLayout>   <Clients />  </MainLayout>}/> 
       <Route  path="/clients/:id"  element={<ClientDetails />}/>
+
       <Route path="/produits"  element={ <MainLayout><Produits/></MainLayout>}/>
+      <Route path="/products/:id" element={<ProduitDetails />}
+/>
       <Route path="/commandes"  element={ <MainLayout><Commandes/></MainLayout>}/>
 
 

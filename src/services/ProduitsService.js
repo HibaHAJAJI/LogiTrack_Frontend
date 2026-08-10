@@ -28,6 +28,10 @@ const ProduitsService = {
     delete: async(id)=>{
         const response = await api.delete(`/products/${id}`)
         return response.data;
+    }, 
+    getById: async(id)=>{
+        const response = await api.get(`/products/${id}`);
+        return response.data
     }
 
 
