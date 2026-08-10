@@ -1,6 +1,7 @@
 import CommandesService from "../services/CommandesService";
 import { useEffect,useState } from "react";
 import CommandesForm from "./CommandesForm";
+import { useNavigate } from "react-router-dom";
 import {
     Container,
     Paper,
@@ -22,6 +23,8 @@ function CommandesList(){
 
     const[commandes,setCommandes]=useState([]);
     const [open, setOpen] = useState(false);
+
+    const navigate  = useNavigate();
 
 
     const laodingCommandes= async()=>{
@@ -133,6 +136,14 @@ function CommandesList(){
                                 >
                                     Statut
                                 </TableCell>
+                                <TableCell
+                                    sx={{
+                                        fontWeight: 700,
+                                        fontSize: "16px",
+                                    }}
+                                >
+                                    Action
+                                </TableCell>
 
                             </TableRow>
 
@@ -198,6 +209,17 @@ function CommandesList(){
                                         />
 
                                     </TableCell>
+
+                                    <TableCell>
+                                    <Button
+                                      variant="outlined"
+                                      size="small"
+                                      onClick={() => navigate(`/commandes/${commande.id}`)}
+                                  >
+                                      CONSULTER
+                                  </Button>
+                                  </TableCell>
+
 
                                 </TableRow>
 

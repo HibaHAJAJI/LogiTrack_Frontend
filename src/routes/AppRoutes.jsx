@@ -17,6 +17,7 @@ import Produits from "../produits/ProduitsList";
 import ProduitDetails from "../produits/ProduitsDetails";
 
 import Commandes from "../commandes/commandesList";
+import CommandeDetails from "../commandes/CommandeDetails";
 
 
  const MainLayout = ({children}) => {
@@ -54,6 +55,8 @@ const AppRoutes = () => {
       <Route path="/products/:id" element={<ProduitDetails />}
 />
       <Route path="/commandes"  element={ <MainLayout><Commandes/></MainLayout>}/>
+      <Route path="/commandes/:id" element={<CommandeDetails />}/>
+
 
 
 

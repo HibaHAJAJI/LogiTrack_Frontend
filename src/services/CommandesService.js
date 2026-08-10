@@ -13,6 +13,12 @@ const CommandesService ={
         return response.data
     },
 
+    getById: async(id)=>{
+        const response = await api.get(`/orders/${id}`);
+        return response.data
+
+    }
+
 }
 
 export default CommandesService;
