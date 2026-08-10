@@ -15,13 +15,18 @@ import {
     TableContainer,
     Box,
     Button,
+    MenuItem,
+    TextField,
 } from "@mui/material";
 
 function ProduitsList() {
 
     const [produits, setProduits] = useState([]);
     const [open, setOpen] = useState(false);
+
     const [search, setSearch] = useState("");
+    const [typeRecherche, setTypeRecherche] = useState("categorie");
+
 
     useEffect(() => {
 
@@ -32,29 +37,45 @@ function ProduitsList() {
                 let data;
 
                 if (search.trim() === "") {
+
                     data = await ProduitsService.getAll();
 
-                } else {
+                }
+                else if (typeRecherche === "categorie") {
+
                     data = await ProduitsService.getByCategory(
                         search.trim()
                     );
+
+                }
+                else if (typeRecherche === "prix") {
+
+                    data = await ProduitsService.getByPrice(
+                        search.trim()
+                    );
+
                 }
 
                 setProduits(data.content || []);
 
             } catch (error) {
+
                 console.log(error);
                 setProduits([]);
+
             }
+
         };
 
         fetchProduits();
 
-    }, [search]);
+    }, [search, typeRecherche]);
 
 
     return (
+
         <Container maxWidth="lg" sx={{ mt: 4 }}>
+
             <Box
                 sx={{
                     display: "flex",
@@ -63,6 +84,7 @@ function ProduitsList() {
                     mb: 3,
                 }}
             >
+
                 <Typography
                     variant="h4"
                     sx={{
@@ -78,18 +100,50 @@ function ProduitsList() {
                 >
                     ＋ Ajouter un produit
                 </Button>
+
             </Box>
+
             <Box
                 sx={{
+                    display: "flex",
+                    gap: 2,
                     mb: 3,
+                    alignItems: "center",
                 }}
             >
+
                 <SearchBar
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Rechercher par catégorie..."
+                    onChange={(value) => setSearch(value)}
+                    placeholder={
+                        typeRecherche === "categorie"
+                            ? "Rechercher par catégorie..."
+                            : "Entrer un prix maximum..."
+                    }
                 />
+
+                <TextField
+                    select
+                    value={typeRecherche}
+                    onChange={(e) => setTypeRecherche(e.target.value)}
+                    size="small"
+                    sx={{
+                        width: 180,
+                    }}
+                >
+
+                    <MenuItem value="categorie">
+                        Catégorie
+                    </MenuItem>
+
+                    <MenuItem value="prix">
+                        Prix
+                    </MenuItem>
+
+                </TextField>
+
             </Box>
+
             <Paper
                 elevation={0}
                 sx={{
@@ -171,12 +225,10 @@ function ProduitsList() {
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
-
                                                 backgroundColor:
                                                     produit.quantiteStock <= 10
                                                         ? "#f97316"
                                                         : "#2e7d32",
-
                                                 color: "white",
                                                 fontWeight: 600,
                                             }}
@@ -199,7 +251,6 @@ function ProduitsList() {
                     </Table>
 
                 </TableContainer>
-
                 {produits.length === 0 && (
 
                     <Box
@@ -208,9 +259,11 @@ function ProduitsList() {
                             textAlign: "center",
                         }}
                     >
+
                         <Typography color="text.secondary">
                             Aucun produit trouvé.
                         </Typography>
+
                     </Box>
 
                 )}
@@ -220,11 +273,13 @@ function ProduitsList() {
                 open={open}
                 onClose={() => setOpen(false)}
                 onSuccess={() => {
+
                     setOpen(false);
-                    
+
                     ProduitsService.getAll().then((data) => {
                         setProduits(data.content || []);
                     });
+
                 }}
             />
 

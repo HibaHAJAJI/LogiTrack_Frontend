@@ -1,17 +1,21 @@
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-function SearchBar({ value, onChange, placeholder = "Rechercher..." }) {
+function SearchBar({
+    value,
+    onChange,
+    placeholder = "Rechercher..."
+}) {
+
     return (
         <TextField
+            fullWidth
             value={value}
-            onChange={onChange}
+            onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
             size="small"
             sx={{
-                width: 400,
-                mb: 3,
-
+                maxWidth: 400,
                 "& .MuiOutlinedInput-root": {
                     borderRadius: 2,
                     backgroundColor: "#fff",
