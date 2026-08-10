@@ -18,6 +18,11 @@ const clientService ={
     delete: async(id)=>{
         const response = await api.delete(`/clients/${id}`);
         return response.data
+    }, 
+
+    getById: async(id)=>{
+        const response = await api.get(`/clients/${id}`)
+        return response.data
     }
 
 }

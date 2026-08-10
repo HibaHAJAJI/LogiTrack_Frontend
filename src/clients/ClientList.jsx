@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteButton from "../components/DeleteButton";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -23,6 +24,7 @@ function ClientsList(){
     const [open, setOpen] = useState(false);
 
 
+    const navigate = useNavigate();
 
       const loadClients = async()=>{
 
@@ -101,6 +103,12 @@ function ClientsList(){
                       onDelete={() => handleDelete(client.id)}
                     />
                   </TableCell>
+                  <Button
+                    variant="outlined"
+                    onClick={() => navigate(`/clients/${client.id}`)}
+                >
+                    Consulter
+                </Button>
                 </TableRow>
                 ))}
             </TableBody>
