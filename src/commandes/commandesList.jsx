@@ -13,8 +13,9 @@ import {
     TableCell,
     TableContainer,
     Box,
-    Chip,
     Button,
+    Select,
+    MenuItem,
 } from "@mui/material";
 
 
@@ -37,6 +38,21 @@ function CommandesList(){
         }
     }
 
+    const handleStatusChange = async (id, status) => {
+
+    try {
+
+        await CommandesService.updateStatus(id, status);
+
+        await laodingCommandes();
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+};
+
     useEffect(()=>{
         const fetchCommandes = async()=>{
             await laodingCommandes();
@@ -45,8 +61,10 @@ function CommandesList(){
     },[])
 
     
- return (
+  return (
+
         <Container maxWidth="lg" sx={{ mt: 4 }}>
+
             <Box
                 sx={{
                     mb: 3,
@@ -62,6 +80,7 @@ function CommandesList(){
                 >
                     Liste des commandes
                 </Typography>
+
 
                 <Button
                     variant="contained"
@@ -79,7 +98,6 @@ function CommandesList(){
 
             </Box>
 
-
             <Paper
                 elevation={0}
                 sx={{
@@ -90,8 +108,8 @@ function CommandesList(){
             >
 
                 <TableContainer>
-                    <Table>
 
+                    <Table>
                         <TableHead>
 
                             <TableRow
@@ -110,6 +128,7 @@ function CommandesList(){
                                     ID
                                 </TableCell>
 
+
                                 <TableCell
                                     sx={{
                                         fontWeight: 700,
@@ -118,6 +137,7 @@ function CommandesList(){
                                 >
                                     Client ID
                                 </TableCell>
+
 
                                 <TableCell
                                     sx={{
@@ -128,6 +148,7 @@ function CommandesList(){
                                     Date commande
                                 </TableCell>
 
+
                                 <TableCell
                                     sx={{
                                         fontWeight: 700,
@@ -136,6 +157,8 @@ function CommandesList(){
                                 >
                                     Statut
                                 </TableCell>
+
+
                                 <TableCell
                                     sx={{
                                         fontWeight: 700,
@@ -162,7 +185,6 @@ function CommandesList(){
                                         },
                                     }}
                                 >
-
                                     <TableCell
                                         sx={{
                                             fontSize: "16px",
@@ -172,7 +194,6 @@ function CommandesList(){
                                         {commande.id}
                                     </TableCell>
 
-
                                     <TableCell
                                         sx={{
                                             fontSize: "16px",
@@ -181,7 +202,6 @@ function CommandesList(){
                                     >
                                         {commande.clientId}
                                     </TableCell>
-
 
                                     <TableCell
                                         sx={{
@@ -193,32 +213,46 @@ function CommandesList(){
 
                                     <TableCell>
 
-                                        <Chip
-                                            label={commande.statut}
-                                            size="small"
-                                            color={
-                                                commande.statut === "LIVREE"
-                                                    ? "success"
-                                                    : commande.statut === "EXPEDIEE"
-                                                    ? "info"
-                                                    : "warning"
-                                            }
-                                            sx={{
-                                                fontWeight: 500,
-                                            }}
-                                        />
+                                    <Select
+                                                size="small"
+                                                value={commande.statut}
+                                                onChange={(e) =>
+                                                    handleStatusChange(
+                                                        commande.id,
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <MenuItem value="EN_ATTENTE">
+                                                    EN ATTENTE
+                                                </MenuItem>
+
+                                                <MenuItem value="EXPEDIEE">
+                                                    EXPÉDIÉE
+                                                </MenuItem>
+
+                                                <MenuItem value="LIVREE">
+                                                    LIVRÉE
+                                                </MenuItem>
+                                            </Select>
 
                                     </TableCell>
 
                                     <TableCell>
-                                    <Button
-                                      variant="outlined"
-                                      size="small"
-                                      onClick={() => navigate(`/commandes/${commande.id}`)}
-                                  >
-                                      CONSULTER
-                                  </Button>
-                                  </TableCell>
+
+                                        <Button
+                                            variant="outlined"
+                                            size="small"
+                                            onClick={() =>
+                                                navigate(
+                                                    `/commandes/${commande.id}`
+                                                )
+                                            }
+                                        >
+                                            CONSULTER
+                                        </Button>
+
+                                    </TableCell>
 
 
                                 </TableRow>
@@ -228,9 +262,8 @@ function CommandesList(){
                         </TableBody>
 
                     </Table>
+
                 </TableContainer>
-
-
                 {commandes.length === 0 && (
 
                     <Box
@@ -259,5 +292,6 @@ function CommandesList(){
         </Container>
     );
 }
+
 
 export default CommandesList;

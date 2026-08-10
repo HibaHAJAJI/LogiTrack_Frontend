@@ -17,7 +17,12 @@ const CommandesService ={
         const response = await api.get(`/orders/${id}`);
         return response.data
 
-    }
+    },
+
+    updateStatus: async(id,statut)=>{
+        const response = await api.put(`/orders/${id}/status`,statut);
+        return response.data
+    },
 
 }
 
