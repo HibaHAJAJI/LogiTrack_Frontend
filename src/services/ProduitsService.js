@@ -25,6 +25,11 @@ const ProduitsService = {
         return response.data;
     },
 
+    delete: async(id)=>{
+        const response = await api.delete(`/products/${id}`)
+        return response.data;
+    }
+
 
 }
 

@@ -2,6 +2,7 @@ import ProduitsService from "../services/ProduitsService";
 import { useState, useEffect } from "react";
 import ProduitForm from "./ProduitForm";
 import SearchBar from "../components/SearchBar";
+import DeleteButton from "../components/DeleteButton";
 
 import {
     Container,
@@ -28,48 +29,64 @@ function ProduitsList() {
     const [typeRecherche, setTypeRecherche] = useState("categorie");
 
 
-    useEffect(() => {
+    const loadProduits = async () => {
 
-        const fetchProduits = async () => {
+        try {
 
-            try {
+            let data;
 
-                let data;
+            if (search.trim() === "") {
 
-                if (search.trim() === "") {
+                data = await ProduitsService.getAll();
 
-                    data = await ProduitsService.getAll();
+            } else if (typeRecherche === "categorie") {
 
-                }
-                else if (typeRecherche === "categorie") {
+                data = await ProduitsService.getByCategory(
+                    search.trim()
+                );
 
-                    data = await ProduitsService.getByCategory(
-                        search.trim()
-                    );
+            } else if (typeRecherche === "prix") {
 
-                }
-                else if (typeRecherche === "prix") {
-
-                    data = await ProduitsService.getByPrice(
-                        search.trim()
-                    );
-
-                }
-
-                setProduits(data.content || []);
-
-            } catch (error) {
-
-                console.log(error);
-                setProduits([]);
-
+                data = await ProduitsService.getByPrice(
+                    search.trim()
+                );
             }
 
-        };
+            setProduits(data.content || []);
 
-        fetchProduits();
+        } catch (error) {
+
+            console.log(error);
+            setProduits([]);
+
+        }
+    };
+
+    useEffect(() => {
+
+           const fetchProduits = async () => {
+            await  loadProduits();
+           }
+               fetchProduits();
 
     }, [search, typeRecherche]);
+
+
+    const handleDelete = async (id) => {
+
+        try {
+
+            await ProduitsService.delete(id);
+
+            await loadProduits();
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+    };
+
 
 
     return (
@@ -184,6 +201,9 @@ function ProduitsList() {
                                 <TableCell sx={{ fontWeight: 700 }}>
                                     Catégorie
                                 </TableCell>
+                                <TableCell sx={{ fontWeight: 700 }}>
+                                    Action
+                                </TableCell>
 
                             </TableRow>
 
@@ -240,6 +260,11 @@ function ProduitsList() {
 
                                     <TableCell>
                                         {produit.categorie}
+                                    </TableCell>
+                                    <TableCell>
+                                        <DeleteButton
+                                            onDelete={() => handleDelete(produit.id)}
+                                        />
                                     </TableCell>
 
                                 </TableRow>
