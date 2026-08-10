@@ -2,6 +2,8 @@ import CommandesService from "../services/CommandesService";
 import { useEffect,useState } from "react";
 import CommandesForm from "./CommandesForm";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../components/Pagination";
+
 import {
     Container,
     Paper,
@@ -27,12 +29,18 @@ function CommandesList(){
 
     const navigate  = useNavigate();
 
+    
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+
 
     const laodingCommandes= async()=>{
 
         try{
-         const data = await CommandesService.getAll();
+         const data = await CommandesService.getAll(page,10);
             setCommandes(data.content ||[]);
+            setTotalPages(data.totalPages || 0);
+
         }catch(error){
             console.log(error)
         }
@@ -282,6 +290,11 @@ function CommandesList(){
                 )}
 
             </Paper>
+              <Pagination
+              page={page}
+              totalPages={totalPages}
+              onPageChange={setPage}
+            />
 
             <CommandesForm
                 open={open}
