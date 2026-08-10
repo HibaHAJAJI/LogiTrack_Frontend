@@ -5,7 +5,6 @@ import SearchBar from "../components/SearchBar";
 import DeleteButton from "../components/DeleteButton";
 import { useNavigate } from "react-router-dom";
 
-
 import {
     Container,
     Paper,
