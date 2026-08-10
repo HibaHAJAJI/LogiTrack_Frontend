@@ -1,6 +1,7 @@
 import clientService from "../services/clientService";
 import ClientForm from "./ClientForm";
 import { useEffect,useState } from "react";
+import Pagination from "../components/Pagination";
 import {
   Container,
   Paper,
@@ -23,14 +24,21 @@ function ClientsList(){
     const [clients,setClients] = useState([]);
     const [open, setOpen] = useState(false);
 
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+
 
     const navigate = useNavigate();
 
       const loadClients = async()=>{
 
         try{
-            const data = await clientService.getAll();
-            setClients(data.content ||[]);
+            
+              const data = await clientService.getAll(page, 10);
+
+              setClients(data.content || []);
+
+              setTotalPages(data.totalPages || 0);
 
         }catch(error){
             console.error(error);
@@ -59,7 +67,7 @@ function ClientsList(){
                await loadClients();
     };
               fetchClients();
-    },[]);
+    },[page]);
 
   
 
@@ -113,6 +121,11 @@ function ClientsList(){
                 ))}
             </TableBody>
             </Table>
+             <Pagination
+              page={page}
+              totalPages={totalPages}
+              onPageChange={setPage}
+            />
             <ClientForm
             open={open}
             onClose={() => setOpen(false)}
