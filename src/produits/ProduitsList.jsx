@@ -1,110 +1,104 @@
 import ProduitsService from "../services/ProduitsService";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import ProduitForm from "./ProduitForm";
 import SearchBar from "../components/SearchBar";
 
 import {
-  Container,
-  Paper,
-  Typography,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableContainer,
-  Box,
-  TextField,
+    Container,
+    Paper,
+    Typography,
+    Table,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell,
+    TableContainer,
+    Box,
+    Button,
 } from "@mui/material";
 
+function ProduitsList() {
 
-function ProduitsList(){
-
-    const[produits,setProduits]=useState([]);
+    const [produits, setProduits] = useState([]);
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
-    const [typeRecherche, setTypeRecherche] = useState("categorie");
 
+    useEffect(() => {
 
-    const laodingProduit = async ()=>{
-         try {
-          let data;
+        const fetchProduits = async () => {
 
-        if (search === "") {
-            data = await ProduitsService.getAll();
+            try {
 
-         } else if (typeRecherche === "categorie") {
+                let data;
 
-            data = await ProduitsService.getByCategory(search);
-         }
+                if (search.trim() === "") {
+                    data = await ProduitsService.getAll();
 
-         setProduits(data.content || []);   
+                } else {
+                    data = await ProduitsService.getByCategory(
+                        search.trim()
+                    );
+                }
 
-         } catch (error) {
-        console.log(error);
-        }
-    }
+                setProduits(data.content || []);
 
-        useEffect(()=>{
-
-           const fetchProduits= async ()=>{
-
-              await  laodingProduit();
+            } catch (error) {
+                console.log(error);
+                setProduits([]);
             }
-            fetchProduits();
-           
-        },[search,typeRecherche])
+        };
+
+        fetchProduits();
+
+    }, [search]);
 
 
-   return (
-
+    return (
         <Container maxWidth="lg" sx={{ mt: 4 }}>
-
             <Box
-    sx={{
-        display: "flex",
-        gap: 2,
-        mb: 3,
-        alignItems: "center"
-    }}
->
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 3,
+                }}
+            >
+                <Typography
+                    variant="h4"
+                    sx={{
+                        fontWeight: 600,
+                    }}
+                >
+                    Liste des produits
+                </Typography>
 
-    <SearchBar
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Rechercher..."
-    />
-
-    <TextField
-        select
-        value={typeRecherche}
-        onChange={(e) => setTypeRecherche(e.target.value)}
-        SelectProps={{
-            native: true
-        }}
-        sx={{
-            width: 180
-        }}
-    >
-
-        <option value="categorie">
-            Catégorie
-        </option>
-
-        <option value="prix">
-            Prix
-        </option>
-
-    </TextField>
-
-</Box>
+                <Button
+                    variant="contained"
+                    onClick={() => setOpen(true)}
+                >
+                    ＋ Ajouter un produit
+                </Button>
+            </Box>
+            <Box
+                sx={{
+                    mb: 3,
+                }}
+            >
+                <SearchBar
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Rechercher par catégorie..."
+                />
+            </Box>
             <Paper
                 elevation={0}
                 sx={{
                     border: "1px solid #e2e8f0",
                     borderRadius: 3,
                     overflow: "hidden",
-                }}  >
+                }}
+            >
+
                 <TableContainer>
 
                     <Table>
@@ -117,49 +111,23 @@ function ProduitsList(){
                                 }}
                             >
 
-                                <TableCell
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: "16px",
-                                        py: 2.5,
-                                    }}
-                                >
+                                <TableCell sx={{ fontWeight: 700 }}>
                                     ID
                                 </TableCell>
 
-                                <TableCell
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: "16px",
-                                    }}
-                                >
+                                <TableCell sx={{ fontWeight: 700 }}>
                                     Nom
                                 </TableCell>
 
-                                <TableCell
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: "16px",
-                                    }}
-                                >
+                                <TableCell sx={{ fontWeight: 700 }}>
                                     Prix
                                 </TableCell>
 
-                                <TableCell
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: "16px",
-                                    }}
-                                >
+                                <TableCell sx={{ fontWeight: 700 }}>
                                     Stock
                                 </TableCell>
 
-                                <TableCell
-                                    sx={{
-                                        fontWeight: 700,
-                                        fontSize: "16px",
-                                    }}
-                                >
+                                <TableCell sx={{ fontWeight: 700 }}>
                                     Catégorie
                                 </TableCell>
 
@@ -175,41 +143,23 @@ function ProduitsList(){
                                 <TableRow
                                     key={produit.id}
                                     hover
-                                    sx={{
-                                        "&:last-child td": {
-                                            borderBottom: 0,
-                                        },
-                                    }}
                                 >
 
-                                    <TableCell
-                                        sx={{
-                                            fontSize: "16px",
-                                            py: 3,
-                                        }}
-                                    >
+                                    <TableCell>
                                         {produit.id}
                                     </TableCell>
 
-
                                     <TableCell
                                         sx={{
-                                            fontSize: "18px",
                                             fontWeight: 500,
                                         }}
                                     >
                                         {produit.nom}
                                     </TableCell>
 
-
-                                    <TableCell
-                                        sx={{
-                                            fontSize: "16px",
-                                        }}
-                                    >
+                                    <TableCell>
                                         {produit.prix} DH
                                     </TableCell>
-
 
                                     <TableCell>
 
@@ -236,12 +186,7 @@ function ProduitsList(){
 
                                     </TableCell>
 
-
-                                    <TableCell
-                                        sx={{
-                                            fontSize: "16px",
-                                        }}
-                                    >
+                                    <TableCell>
                                         {produit.categorie}
                                     </TableCell>
 
@@ -271,11 +216,16 @@ function ProduitsList(){
                 )}
 
             </Paper>
-
             <ProduitForm
                 open={open}
                 onClose={() => setOpen(false)}
-                onSuccess={laodingProduit}
+                onSuccess={() => {
+                    setOpen(false);
+                    
+                    ProduitsService.getAll().then((data) => {
+                        setProduits(data.content || []);
+                    });
+                }}
             />
 
         </Container>
