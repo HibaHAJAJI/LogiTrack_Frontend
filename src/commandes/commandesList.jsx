@@ -44,38 +44,37 @@ function CommandesList(){
     
  return (
         <Container maxWidth="lg" sx={{ mt: 4 }}>
-            <Box sx={{ mb: 3 }}>
-    <Typography
-        variant="h4"
-        sx={{
-            fontSize: "36px",
-            fontWeight: 400,
-            mb: 2,
-        }}
-    >
-        Liste des commandes
-    </Typography>
+            <Box
+                sx={{
+                    mb: 3,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
 
-    <Button
-        variant="contained"
-        onClick={() => setOpen(true)}
-        sx={{
-            backgroundColor: "#1976d2",
-            textTransform: "uppercase",
-            fontSize: "16px",
-            fontWeight: 500,
-            px: 3,
-            py: 1.3,
-            borderRadius: "4px",
-            boxShadow: "0 3px 6px rgba(0,0,0,0.2)",
-            "&:hover": {
-                backgroundColor: "#1565c0",
-            },
-        }}
-    >
-        + &nbsp; AJOUTER UNE COMMANDE
-    </Button>
-</Box>
+                <Typography
+                    variant="h4"
+                    fontWeight={500}
+                >
+                    Liste des commandes
+                </Typography>
+
+                <Button
+                    variant="contained"
+                    onClick={() => setOpen(true)}
+                    sx={{
+                        textTransform: "uppercase",
+                        fontWeight: 500,
+                        px: 3,
+                        py: 1.2,
+                        borderRadius: 1,
+                    }}
+                >
+                    + Ajouter une commande
+                </Button>
+
+            </Box>
 
 
             <Paper

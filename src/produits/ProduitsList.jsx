@@ -65,7 +65,7 @@ function ProduitsList() {
     useEffect(() => {
 
            const fetchProduits = async () => {
-            await  loadProduits();
+        loadProduits();
            }
                fetchProduits();
 
@@ -262,10 +262,10 @@ function ProduitsList() {
                                         {produit.categorie}
                                     </TableCell>
                                     <TableCell>
-                                        <DeleteButton
-                                            onDelete={() => handleDelete(produit.id)}
-                                        />
-                                    </TableCell>
+                                    <DeleteButton
+                                        onDelete={() => handleDelete(produit.id)}
+                                    />
+                                </TableCell>
 
                                 </TableRow>
 
