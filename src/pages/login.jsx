@@ -1,62 +1,42 @@
-import {useState} from "react";
+import { useState } from "react";
 import authService from "../services/authService";
-import { useNavigate ,Link as RouterLink} from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { Box,Paper, Button,TextField,Typography, Link as MuiLink} from "@mui/material";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
+import {
+  Box,
+  Paper,
+  Button,
+  TextField,
+  Typography,
+  Link as MuiLink,
+} from "@mui/material";
 
-
-
-const Login = ()=>{
-
+const Login = () => {
   const [email, setEmail] = useState("");
-  const[ password , setPassword] =useState("");
-  const[loading , setLoading]=useState(false);
-  const[error, setError]= useState("");
-
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { login } = useAuth();
 
-
-  const handleSubmit = async (e) =>{
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setError("");        
 
-  try{
+  
+      const response = await authService.login(email, password);
+     
 
-    const response = await authService.login(email,password);
-
-    if(response && response.token){
-
-      const user = {
-
-        id : response.id,
-        email: response.email,
-        role : response.role
-
-      };
-
-      login(user,response.token);
-
-      navigate("/dashboard");
-    }
-
-    } catch (err){
-
-      const message =
-      err.response?.data?.message || "Nom d'utilisateur ou mot de passe incorrect.";
-      setError(message);
-
-    }finally{
-       setLoading(false);
-    }
+      if (response && response.token) {
+        navigate("/dashboard");
+      
+      }
+      setLoading(false);
+    
   };
 
-  return(
-
- <Box
+  return (
+    <Box
       sx={{
         minHeight: "100vh",
         display: "flex",
@@ -75,41 +55,48 @@ const Login = ()=>{
         }}
       >
         <Typography
-          variant="h4"
-          textAlign="center"
-          fontWeight="bold"
-          mb={1}
+          variant="h5"
+          sx={{
+            textAlign: "center",
+            mb: 1,
+            fontWeight: "bold",
+          }}
         >
           LogiTrack
         </Typography>
 
         <Typography
           variant="body2"
-          textAlign="center"
+          sx={{
+            textAlign: "center",
+            mb: 3,
+          }}
           color="text.secondary"
-          mb={3}
         >
           Connexion à votre espace
         </Typography>
 
-             {error && (
-                <Typography
-              color="error"
-              textAlign="center"
-              sx={{ mb: 2 }}
-  >
-             {error}
-               </Typography>
-             )}
-         <form onSubmit={handleSubmit}>
-            <TextField
+        {error && (
+          <Typography
+            color="error"
+            sx={{
+              textAlign: "center",
+              mb: 2,
+            }}
+          >
+            {error}
+          </Typography>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <TextField
             fullWidth
-    label="Email"
-    type="email"
-    margin="normal"
-    value={email}
+            label="Email"
+            type="email"
+            margin="normal"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
-             />
+          />
 
           <TextField
             fullWidth
@@ -118,74 +105,43 @@ const Login = ()=>{
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-           />
+          />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3 }}
-              disabled={loading}
-            >
-              {loading ? "Connexion..." : "Se connecter"}
-            </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3 }}
+            disabled={loading}
+          >
+            {loading ? "Connexion..." : "Se connecter"}
+          </Button>
 
-            <Typography textAlign="center" variant="body2">
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: "center",
+              mt: 2,
+            }}
+          >
             Vous n'avez pas encore de compte ?{" "}
-            <MuiLink 
-                component={RouterLink} 
-                to="/register" 
-                underline="hover"
-                sx={{ color: "primary.main", fontWeight: "bold", cursor: "pointer" }}
-              >
-                Créer un compte
-              </MuiLink>
+            <MuiLink
+              component={RouterLink}
+              to="/register"
+              underline="hover"
+              sx={{
+                color: "primary.main",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              Créer un compte
+            </MuiLink>
           </Typography>
         </form>
       </Paper>
     </Box>
   );
-
 };
 
 export default Login;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

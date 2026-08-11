@@ -1,13 +1,21 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
-function RoleGuard({ children, allowedRoles }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+
+function RoleGuard({ allowedRoles }) {
+  
+  const token = localStorage.getItem('token');
+  const user = jwtDecode(token);
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   if (!allowedRoles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  return children;
+  return <Outlet />;
 }
 
 export default RoleGuard;

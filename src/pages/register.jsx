@@ -2,56 +2,69 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box,Paper, Button,TextField,Typography,MenuItem,} from "@mui/material";
+import {
+  Box,
+  Paper,
+  Button,
+  TextField,
+  Typography,
+  MenuItem,
+} from "@mui/material";
 
 import authService from "../services/authService";
 import { registerSchema } from "../validation/register";
 
+const Register = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
+  const navigate = useNavigate();
 
-const Register = () =>{
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+    defaultValues: {
+      nom: "",
+      prenom: "",
+      email: "",
+      password: "",
+      role: "",
+    },
+  });
 
-    const [loading,setLoading] = useState(false);
-    const [error,setError] = useState("");
-    const [success, setSuccess] = useState("");
+  const onSubmit = async (data) => {
+    setLoading(true);
+    setError("");
+    setSuccess("");
 
- 
-    const navigate = useNavigate();
+    try {
+      const response = await authService.register(data);
 
-        const{
-            register,
-            handleSubmit,
-            formState:{ errors },
+      console.log("Register response :", response);
 
-        }=useForm({
-            resolver: yupResolver(registerSchema),
-        });
+      setSuccess("Inscription réussie !");
 
-        const onSubmit = async (data) =>{
-            setLoading(true);
-            setError("");
-            setSuccess("");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } catch (err) {
+      console.error("Register error :", err);
 
-            try{
-                const response = await authService.register(data);
-                console.log("Register response :", response)
+      setError(
+        err.response?.data?.message ||
+          "Une erreur est survenue lors de l'inscription."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                setSuccess("Inscription réussie !");
-                setTimeout(()=>{
-                    navigate("/login");
-                },1500)
-            }catch(err){
-                console.error("Register error  ",err)
-
-                setError(err.response?.data?.message || "Une erreur est survenue lors de l'inscription." );
-
-            }finally{
-                setLoading(false)
-            }
-        }
-
-            return(
-                 <Box
+  return (
+    <Box
       sx={{
         minHeight: "100vh",
         display: "flex",
@@ -72,18 +85,22 @@ const Register = () =>{
       >
         <Typography
           variant="h4"
-          textAlign="center"
-          fontWeight="bold"
-          mb={1}
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            mb: 1,
+          }}
         >
           LogiTrack
         </Typography>
 
         <Typography
           variant="body2"
-          textAlign="center"
+          sx={{
+            textAlign: "center",
+            mb: 3,
+          }}
           color="text.secondary"
-          mb={3}
         >
           Créer votre compte
         </Typography>
@@ -91,8 +108,10 @@ const Register = () =>{
         {error && (
           <Typography
             color="error"
-            textAlign="center"
-            sx={{ mb: 2 }}
+            sx={{
+              textAlign: "center",
+              mb: 2,
+            }}
           >
             {error}
           </Typography>
@@ -101,8 +120,10 @@ const Register = () =>{
         {success && (
           <Typography
             color="success.main"
-            textAlign="center"
-            sx={{ mb: 2 }}
+            sx={{
+              textAlign: "center",
+              mb: 2,
+            }}
           >
             {success}
           </Typography>
@@ -159,7 +180,7 @@ const Register = () =>{
           >
             <MenuItem value="ADMIN">ADMIN</MenuItem>
             <MenuItem value="MANAGER">MANAGER</MenuItem>
-            <MenuItem value="USER">USER</MenuItem>
+            <MenuItem value="AGENT">AGENT</MenuItem>
           </TextField>
 
           <Button
@@ -183,10 +204,7 @@ const Register = () =>{
         </form>
       </Paper>
     </Box>
-
   );
-
-}
+};
 
 export default Register;
-

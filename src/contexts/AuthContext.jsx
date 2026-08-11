@@ -1,9 +1,15 @@
 import { createContext , useContext } from "react";
+import { jwtDecode } from "jwt-decode";
+
 
 export const AuthContext = createContext(null);
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
+    const context = useContext(AuthContext);   
+    
+
+    const user = jwtDecode(context?.token);
+
 
     if(!context){
         throw new Error(
@@ -11,5 +17,5 @@ export const useAuth = () => {
         );
     }
 
-    return context;
+    return user;
 }
