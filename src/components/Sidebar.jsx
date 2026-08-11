@@ -17,7 +17,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 
 import { useNavigate, useLocation } from "react-router-dom";
-import{useAuth} from "../contexts/AuthContext"
+import{AuthContext} from "../contexts/AuthContext";
+import { useContext } from "react";
+
 
 const menuItems = [
   {
@@ -46,7 +48,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const{logout} =useAuth();
+  const { logout } = useContext(AuthContext);
 
   return (
     <Drawer
@@ -145,7 +147,6 @@ const Sidebar = () => {
           })}
         </List>
 
-        {/* Logout */}
         <Box sx={{ mt: "auto", pt: 2 }}>
           <Button
             startIcon={<LogoutIcon />}

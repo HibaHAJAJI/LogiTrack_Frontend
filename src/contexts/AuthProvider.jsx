@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) =>{
         localStorage.setItem("token", jwtToken);
     };
 
+
     const logout = ()=>{
 
         setToken(null);

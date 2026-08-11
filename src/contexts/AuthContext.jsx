@@ -7,8 +7,7 @@ export const AuthContext = createContext(null);
 export const useAuth = () => {
     const context = useContext(AuthContext);   
     
-
-    const user = jwtDecode(context?.token);
+    const user = jwtDecode(JSON.stringify(context?.token));
 
 
     if(!context){
