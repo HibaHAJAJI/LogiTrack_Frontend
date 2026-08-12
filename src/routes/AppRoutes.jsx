@@ -5,7 +5,7 @@ import Register from "../pages/register";
 import Dashboard from "../pages/Dashboard";
 
 import NotFound from "../components/NotFound";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar/Navbar";
 import Sidebar from "../components/Sidebar";
 import About from "../components/about/About";
 
@@ -22,24 +22,8 @@ import CommandeDetails from "../commandes/CommandeDetails";
 import CommandesForm from "../commandes/CommandesForm";
 
 import AuthGuard from "../guard/AuthGuard";
-import RoleGuard from "../guard/RoleGuard";
 
-const ROLES = {
-  ADMIN: "ROLE_ADMIN",
-  MANAGER: "ROLE_MANAGER",
-  AGENT: "ROLE_AGENT",
-};
 
-const READ_ROLES = [
-  ROLES.ADMIN,
-  ROLES.MANAGER,
-  ROLES.AGENT,
-];
-
-const WRITE_ROLES = [
-  ROLES.ADMIN,
-  ROLES.MANAGER,
-];
 
 
 const MainLayout = () => {
@@ -88,11 +72,7 @@ const AppRoutes = () => {
             element={<Dashboard />}
           />
 
-          <Route
-            element={
-              <RoleGuard allowedRoles={READ_ROLES} />
-            }
-          >
+          
             <Route
               path="/clients"
               element={<Clients />}
@@ -115,11 +95,7 @@ const AppRoutes = () => {
             />
           </Route>
 
-          <Route
-            element={
-              <RoleGuard allowedRoles={WRITE_ROLES} />
-            }
-          >
+
             <Route
               path="/clients/add"
               element={<ClientForm />}
@@ -136,8 +112,6 @@ const AppRoutes = () => {
             />
           </Route>
 
-        </Route>
-      </Route>
 
       <Route
         path="*"
