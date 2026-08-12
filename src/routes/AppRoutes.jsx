@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import NotFound from "../components/NotFound";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import About from "../components/about/About";
 
 import Clients from "../clients/ClientList";
 import ClientDetails from "../clients/ClientDetails";
@@ -64,10 +65,9 @@ const AppRoutes = () => {
   return (
     
     <Routes>
-      <Route
-        path="/"
-        element={<Navigate to="/dashboard" replace />}
-      />
+     <Route path="/" element={<About />} />
+
+      <Route  path="/"  element={<Navigate to="/dashboard" replace />} />
 
       <Route
         path="/login"
