@@ -11,8 +11,8 @@ import {
   MenuItem,
 } from "@mui/material";
 
-import authService from "../services/authService";
-import { registerSchema } from "../validation/register";
+import authService from "../../services/authService";
+import { registerSchema } from "../../validation/register";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);

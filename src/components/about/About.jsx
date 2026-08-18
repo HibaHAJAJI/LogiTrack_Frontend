@@ -1,5 +1,3 @@
-
-import Navbar from "../navbar/Navbar";
 import Footer from "../footer/Footer";
 import "./About.css";
 
@@ -55,10 +53,9 @@ const technologies = [
 const About = () => {
   return (
     <div className="about-page">
-      <Navbar />
 
       <main className="about-main">
-        <section className="about-hero">
+        <section id="hero" className="about-hero">
           <div className="hero-content">
             <span className="hero-badge">
               Solution de gestion logistique
@@ -126,7 +123,7 @@ const About = () => {
           </aside>
         </section>
 
-        <section className="about-section presentation-section">
+        <section id="about" className="about-section presentation-section">
           <div className="section-heading">
             <span>À propos</span>
 
@@ -153,7 +150,7 @@ const About = () => {
           </div>
         </section>
 
-        <section className="about-section features-section">
+        <section id="features" className="about-section features-section">
           <div className="section-heading centered">
             <span>Fonctionnalités</span>
 
@@ -253,4 +250,3 @@ const About = () => {
 };
 
 export default About;
-

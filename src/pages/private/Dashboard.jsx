@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDashboard } from "../services/dashboardService";
+import { getDashboard } from "../../services/dashboardService";
 
 import {
   Box,
