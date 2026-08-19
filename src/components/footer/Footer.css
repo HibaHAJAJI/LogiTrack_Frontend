@@ -1,6 +1,4 @@
-/* =========================================================
-   FOOTER (DARK THEME)
-   ========================================================= */
+
 .footer {
   min-height: 70px;
   padding: 0 45px;
@@ -82,7 +80,6 @@
   opacity: 0.6;
 }
 
-/* RESPONSIVE MOBILE */
 @media (max-width: 700px) {
   .footer {
     padding: 20px;

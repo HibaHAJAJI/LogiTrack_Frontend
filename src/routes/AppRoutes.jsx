@@ -64,9 +64,9 @@ const AppRoutes = () => {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<About />} />
         <Route path="/about" element={<About />} />
+      </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-      </Route>
 
 
       <Route element={<AuthGuard />}>
