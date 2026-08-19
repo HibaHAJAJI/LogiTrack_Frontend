@@ -1,7 +1,7 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 
 import Login from "../pages/public/login/Login";
-import Register from "../pages/public/Register";
+import Register from "../pages/public/register/Register";
 import Dashboard from "../pages/private/Dashboard";
 
 import NotFound from "../components/NotFound";
