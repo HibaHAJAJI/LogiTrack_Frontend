@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import authService from "../../../services/authService";
+import { useAuth } from "../../../contexts/AuthContext";
 import { registerSchema } from "../../../validation/registerSchema";
 import "./Register.css";
 
@@ -13,6 +13,7 @@ const Register = () => {
   const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
+  const { register: registerUser } = useAuth();
 
   const {
     register,
@@ -25,7 +26,7 @@ const Register = () => {
       prenom: "",
       email: "",
       password: "",
-      role: "USER", 
+      role: "AGENT", 
     },
   });
 
@@ -35,7 +36,7 @@ const Register = () => {
     setSuccess("");
 
     try {
-      const response = await authService.register(data);
+      const response = await registerUser(data);
       console.log("Register response :", response);
 
       setSuccess("Inscription réussie ! Redirection...");

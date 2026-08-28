@@ -247,6 +247,7 @@
   padding-left: 10px;
 }
 
+
 .register-input-wrap input:focus {
   border-color: var(--ink);
   background: rgba(16, 21, 18, 0.02);
