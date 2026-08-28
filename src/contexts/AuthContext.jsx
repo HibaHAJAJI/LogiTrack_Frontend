@@ -1,20 +1,29 @@
-import { createContext , useContext } from "react";
+import { createContext, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
-
 
 export const AuthContext = createContext(null);
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);   
-    
-    const user = jwtDecode(JSON.stringify(context?.token));
+  const context = useContext(AuthContext);
 
+  if (!context) {
+    throw new Error(
+      "useAuth doit être utilisé à l'intérieur d'un AuthProvider"
+    );
+  }
 
-    if(!context){
-        throw new Error(
-            "useAuth doit être utilisé à l'intérieur d'un AuthProvider"
-        );
+  let user = null;
+
+  if (context.token && typeof context.token === "string") {
+    try {
+      user = jwtDecode(context.token);
+    } catch (error) {
+      console.error("Erreur de décodage du token:", error);
     }
+  }
 
-    return user;
-}
+  return {
+    ...context,
+    user,
+  };
+};

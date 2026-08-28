@@ -1,24 +1,48 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { useAuth } from "../../../contexts/AuthContext";
+import authService from "../../../services/authService";
+import { loginSchema } from "../../../validation/loginSchema";
 import "./Login.css";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const onSubmit = async (data) => {
+    setLoading(true);
+    setError("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Connexion avec :", formData);
+    try {
+      const response = await authService.login(data);
+      login(response.token);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Email ou mot de passe incorrect."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -77,19 +101,19 @@ const Login = () => {
               <p>Entrez vos identifiants pour accéder à votre espace de travail.</p>
             </div>
 
-            <form className="login-form" onSubmit={handleSubmit}>
+            {error && <div className="login-alert error">{error}</div>}
+
+            <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
               <div className="login-field">
                 <label htmlFor="email">Adresse email</label>
                 <div className="login-input-wrap">
                   <input
                     id="email"
-                    name="email"
                     type="email"
-                    value={formData.email}
-                    onChange={handleChange}
                     placeholder="nom@entreprise.com"
                     autoComplete="email"
-                    required
+                    {...register("email")}
+                    className={errors.email ? "input-error" : ""}
                   />
                   <svg
                     className="login-input-icon"
@@ -104,6 +128,9 @@ const Login = () => {
                     <path d="m3 7 9 6 9-6" />
                   </svg>
                 </div>
+                {errors.email && (
+                  <span className="field-error">{errors.email.message}</span>
+                )}
               </div>
 
               <div className="login-field">
@@ -117,13 +144,11 @@ const Login = () => {
                 <div className="login-input-wrap">
                   <input
                     id="password"
-                    name="password"
                     type="password"
-                    value={formData.password}
-                    onChange={handleChange}
                     placeholder="Entrez votre mot de passe"
                     autoComplete="current-password"
-                    required
+                    {...register("password")}
+                    className={errors.password ? "input-error" : ""}
                   />
                   <svg
                     className="login-input-icon"
@@ -138,10 +163,13 @@ const Login = () => {
                     <path d="M8 11V7a4 4 0 0 1 8 0v4" />
                   </svg>
                 </div>
+                {errors.password && (
+                  <span className="field-error">{errors.password.message}</span>
+                )}
               </div>
 
-              <button type="submit" className="login-submit">
-                <span>Se connecter</span>
+              <button type="submit" className="login-submit" disabled={loading}>
+                <span>{loading ? "Connexion..." : "Se connecter"}</span>
                 <span className="login-submit-arrow">→</span>
               </button>
             </form>

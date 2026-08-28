@@ -31,8 +31,8 @@
 
 .register-shell {
   width: 100%;
-  max-width: 900px; 
-  min-height: 520px; 
+  max-width: 900px;
+  min-height: 520px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: var(--paper);
@@ -198,7 +198,7 @@
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .register-row {
@@ -231,7 +231,7 @@
 
 .register-input-wrap input {
   width: 100%;
-  height: 36px; 
+  height: 36px;
   padding-left: 36px;
   padding-right: 12px;
   background: transparent;
@@ -247,23 +247,7 @@
   padding-left: 10px;
 }
 
-.register-input-wrap select {
-  width: 100%;
-  height: 36px;
-  padding: 0 10px;
-  background: transparent;
-  border: 1px solid rgba(16, 21, 18, 0.2);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  transition: all 0.2s ease;
-}
-
-.register-input-wrap input:focus,
-.register-input-wrap select:focus {
+.register-input-wrap input:focus {
   border-color: var(--ink);
   background: rgba(16, 21, 18, 0.02);
 }
@@ -358,6 +342,7 @@
 .register-submit:hover:not(:disabled) .register-submit-arrow {
   transform: translateX(3px);
 }
+
 .register-login {
   margin-top: 14px;
   text-align: center;

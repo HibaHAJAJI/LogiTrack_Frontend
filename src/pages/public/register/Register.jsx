@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import authService from "../../../services/authService";
-import { registerSchema } from "../../../validation/register";
+import { registerSchema } from "../../../validation/registerSchema";
 import "./Register.css";
 
 const Register = () => {
@@ -25,7 +25,7 @@ const Register = () => {
       prenom: "",
       email: "",
       password: "",
-      role: "",
+      role: "USER", 
     },
   });
 
@@ -38,7 +38,7 @@ const Register = () => {
       const response = await authService.register(data);
       console.log("Register response :", response);
 
-      setSuccess("Inscription réussie !");
+      setSuccess("Inscription réussie ! Redirection...");
 
       setTimeout(() => {
         navigate("/login");
@@ -86,7 +86,7 @@ const Register = () => {
               Accès immédiat à la plateforme
             </div>
             <p className="register-card-desc">
-              Déploiement rapide, gestion simplifiée des rôles et des accès.
+              Déploiement rapide, gestion simplifiée des accès.
             </p>
           </div>
         </section>
@@ -194,32 +194,12 @@ const Register = () => {
                 )}
               </div>
 
-              <div className="register-field">
-                <label htmlFor="role">Rôle</label>
-                <div className="register-input-wrap">
-                  <select
-                    id="role"
-                    {...register("role")}
-                    className={errors.role ? "input-error" : ""}
-                    defaultValue=""
-                  >
-                    <option value="" disabled hidden>
-                      Sélectionnez un rôle
-                    </option>
-                    <option value="ADMIN">ADMIN</option>
-                    <option value="MANAGER">MANAGER</option>
-                    <option value="AGENT">AGENT</option>
-                  </select>
-                </div>
-                {errors.role && (
-                  <span className="field-error">{errors.role.message}</span>
-                )}
-              </div>
+              <input type="hidden" value="USER" {...register("role")} />
 
               <button
                 type="submit"
                 className="register-submit"
-                disabled={loading}
+                disabled={loading || !!success}
               >
                 <span>{loading ? "Inscription..." : "S'inscrire"}</span>
                 <span className="register-submit-arrow">→</span>
