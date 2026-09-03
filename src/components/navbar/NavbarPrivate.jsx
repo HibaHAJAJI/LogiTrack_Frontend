@@ -1,13 +1,16 @@
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./NavbarPrivate.css";
 
-const Navbar = () => {
+const Navbar = ({ userRole = "Admin", userName = "Hiba" }) => {
+
+  const avatarInitials = userRole.substring(0, 2).toUpperCase();
 
   return (
     <header className="navbar">
       <div className="navbar-container">
-        
-        <Link to="/" className="navbar-logo">
+
+
+        <Link to="/products" className="navbar-logo">
           <svg
             className="logo-icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -27,15 +30,15 @@ const Navbar = () => {
           </span>
         </Link>
 
-        <div className="nav-auth">
-          <Link to="/login" className="btn-login">
-            Connexion
-          </Link>
-          <Link to="/register" className="btn-register">
-            Inscription
-          </Link>
+        <div className="nav-user-profile">
+          <div className="user-avatar">{avatarInitials}</div>
+          <div className="user-details">
+            <span className="user-name">{userName}</span>
+            <span className={`user-role-badge ${userRole.toLowerCase()}`}>
+              {userRole}
+            </span>
+          </div>
         </div>
-
       </div>
     </header>
   );

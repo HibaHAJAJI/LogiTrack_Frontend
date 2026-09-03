@@ -23,8 +23,7 @@ import CommandeDetails from "../commandes/CommandeDetails";
 import CommandesForm from "../commandes/CommandesForm";
 
 import AuthGuard from "../guard/AuthGuard";
-
-
+import RoleGuard from "../guard/RoleGuard";
 
 const PublicLayout = () => {
   return (
@@ -34,8 +33,6 @@ const PublicLayout = () => {
     </>
   );
 };
-
-
 
 const PrivateLayout = () => {
   return (
@@ -56,81 +53,53 @@ const PrivateLayout = () => {
   );
 };
 
-
 const AppRoutes = () => {
   return (
     <Routes>
-
       <Route element={<PublicLayout />}>
         <Route path="/" element={<About />} />
         <Route path="/about" element={<About />} />
       </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
 
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route element={<AuthGuard />}>
         <Route element={<PrivateLayout />}>
 
-          <Route
-            path="/dashboard"
-            element={<Dashboard />}
-          />
+          <Route path="/dashboard" element={<Dashboard />} />
 
           <Route
-            path="/clients"
-            element={<Clients />}
-          />
+            element={
+              <RoleGuard allowedRoles={["ADMIN", "MANAGER", "AGENT"]} />
+            }
+          >
+            <Route path="/clients" element={<Clients />} />
+            <Route path="/clients/:id" element={<ClientDetails />} />
+
+            <Route path="/produits" element={<Produits />} />
+            <Route path="/produits/:id" element={<ProduitDetails />} />
+
+            <Route path="/commandes" element={<Commandes />} />
+            <Route path="/commandes/:id" element={<CommandeDetails />} />
+          </Route>
 
           <Route
-            path="/clients/add"
-            element={<ClientForm />}
-          />
+            element={
+              <RoleGuard allowedRoles={["ADMIN", "MANAGER"]} />
+            }
+          >
+            <Route path="/clients/add" element={<ClientForm />} />
 
-          <Route
-            path="/clients/:id"
-            element={<ClientDetails />}
-          />
+            <Route path="/produits/add" element={<ProduitForm />} />
 
-          <Route
-            path="/produits"
-            element={<Produits />}
-          />
-
-          <Route
-            path="/produits/add"
-            element={<ProduitForm />}
-          />
-
-          <Route
-            path="/produits/:id"
-            element={<ProduitDetails />}
-          />
-
-          <Route
-            path="/commandes"
-            element={<Commandes />}
-          />
-
-          <Route
-            path="/commandes/add"
-            element={<CommandesForm />}
-          />
-
-          <Route
-            path="/commandes/:id"
-            element={<CommandeDetails />}
-          />
+            <Route path="/commandes/add" element={<CommandesForm />} />
+          </Route>
 
         </Route>
       </Route>
 
-
-      <Route
-        path="*"
-        element={<NotFound />}
-      />
-
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

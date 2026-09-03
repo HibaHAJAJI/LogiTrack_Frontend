@@ -14,7 +14,7 @@ export const useAuth = () => {
 
   let user = null;
 
-  if (context.token && typeof context.token === "string") {
+  if (context.token ) {
     try {
       user = jwtDecode(context.token);
     } catch (error) {
