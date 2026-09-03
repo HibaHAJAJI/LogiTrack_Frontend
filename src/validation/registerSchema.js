@@ -21,13 +21,5 @@ export const registerSchema =  yup.object({
     .min(6,"Le mot de passe doit contenir au moins 6 caractères")
     .required("Le mot de passe est obligatoire"),
 
-    role:yup
-    .string()
-    .oneOf(
-    ["ADMIN", "MANAGER", "USER"],
-    "Rôle invalide"
-      )
-    .required("Le role est obligatoire")
-
 
 })
